@@ -719,10 +719,9 @@ const server = http.createServer(
   }
 );
 
-server.listen(PORT, () => {
-  console.log(
-    `FallenAngel backend running on http://localhost:${PORT}`
-  );
+
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`FallenAngel backend running on port ${PORT}`);
 });
 
 if (process.env.NODE_ENV !== "production") {
