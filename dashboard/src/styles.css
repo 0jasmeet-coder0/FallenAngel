@@ -1,0 +1,1181 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;500;600;700&display=swap');
+:root{font-family:Inter,system-ui,sans-serif;color:#eee;background:#050506;font-synthesis:none;text-rendering:optimizeLegibility}*{box-sizing:border-box}body{margin:0;background:#050506}button{font:inherit;color:inherit}button{cursor:pointer}.landing{min-height:100vh;position:relative;overflow:hidden;background:#050506;display:flex;align-items:center;justify-content:center}.grain{position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}.landing-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:#174bff;opacity:.045;filter:blur(100px)}.wings{position:absolute;width:min(720px,65vw);max-height:88vh;object-fit:contain;opacity:.34;filter:contrast(1.1) brightness(.75);animation:wingsIn 1.7s ease both}.landing-center{position:relative;text-align:center;margin-top:15vh;animation:textUp 1.2s .25s cubic-bezier(.2,.8,.2,1) both}.wordmark{font-family:Cinzel,serif;font-size:clamp(42px,6vw,80px);letter-spacing:.3em;margin-left:.3em;color:#e7e7e7}.line{height:1px;width:100px;background:#5c6573;margin:18px auto}.tagline{font-size:9px;letter-spacing:.34em;color:#777f8c}.landing-bottom{position:absolute;bottom:54px;left:6vw;right:6vw;display:flex;align-items:end;justify-content:space-between;animation:bottomUp 1s .55s both}.reveal-copy span{display:block;color:#59616c;font-size:8px;letter-spacing:.24em;margin-bottom:8px}.reveal-copy strong{font-size:13px;font-weight:500;color:#b5bac2}.blue-button{border:0;background:#2463ff;color:white;padding:13px 18px;display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:600;box-shadow:0 10px 40px #2463ff22;transition:.2s}.blue-button:hover{background:#3670ff;transform:translateY(-2px)}.scroll-note{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:7px;letter-spacing:.2em;color:#3f4650}.scroll-note span{margin-left:7px;color:#65707d}@keyframes wingsIn{from{opacity:0;transform:scale(1.04) translateY(20px)}to{opacity:.34;transform:none}}@keyframes textUp{from{opacity:0;transform:translateY(80px)}to{opacity:1;transform:none}}@keyframes bottomUp{from{opacity:0;transform:translateY(55px)}to{opacity:1;transform:none}}
+
+.auth-page,.servers-page{min-height:100vh;background:#07080a;position:relative;display:grid;place-items:center}.auth-back{position:absolute;top:32px;left:38px;color:#69717c;font-size:10px;display:flex;align-items:center;gap:5px;cursor:pointer}.auth-card{width:min(460px,90vw);text-align:center;padding:30px}.auth-logo{width:145px;height:110px;object-fit:contain;opacity:.45;margin-bottom:22px}.eyebrow{font-size:8px;letter-spacing:.22em;color:#656d78;font-weight:700}.auth-card h1,.servers-wrap h1{font-size:45px;letter-spacing:-.045em;font-weight:500;margin:12px 0 14px}.auth-card h1 em,.servers-wrap h1 em,.dash-hero h2 em,.module-title h2 em{font-style:normal;color:#6e7783}.auth-card>p,.lead{font-size:12px;line-height:1.8;color:#747c87;margin:0 auto 27px;max-width:410px}.discord-button{width:100%;border:1px solid #5865f2;background:#5865f2;padding:14px 17px;display:flex;align-items:center;gap:11px;justify-content:center;font-size:11px;font-weight:600}.discord-button:hover{background:#6672ff}.discord-mark{font-size:16px}.privacy{margin-top:17px;color:#4e5661;font-size:9px;display:flex;align-items:center;justify-content:center;gap:6px}.servers-wrap{width:min(680px,90vw)}.servers-wrap h1{margin-bottom:7px}.servers-wrap .lead{margin:0 0 27px}.server-list{border-top:1px solid #202329}.server-row{width:100%;border:0;border-bottom:1px solid #202329;background:#0b0d10;padding:17px 18px;display:flex;align-items:center;text-align:left;gap:14px;transition:.18s}.server-row:hover{background:#111318}.server-avatar{width:42px;height:42px;display:grid;place-items:center;background:#181b21;border:1px solid #2b2f36;font-weight:600}.server-avatar.small{width:31px;height:31px;font-size:11px}.server-info{flex:1}.server-info strong,.server-info span{display:block}.server-info strong{font-size:12px}.server-info span{font-size:9px;color:#5f6670;margin-top:4px}.server-state{display:flex;align-items:center;gap:5px;color:#6280c8;font-size:9px}.server-state.installed{color:#839789}.row-arrow{color:#4d535d}.server-footnote{margin-top:18px;color:#505761;font-size:9px;display:flex;align-items:center;gap:6px}
+
+.dashboard-shell{min-height:100vh;background:#08090b;color:#e8e9eb;display:flex}.dash-sidebar{width:242px;position:fixed;inset:0 auto 0 0;border-right:1px solid #1c1f24;background:#0b0c0e;padding:25px 15px;display:flex;flex-direction:column}.dash-brand{display:flex;align-items:center;gap:10px;padding:0 10px 25px}.dash-brand>span{width:34px;height:34px;border:1px solid #333840;display:grid;place-items:center;font-weight:700}.dash-brand b{display:block;font-size:12px;letter-spacing:.17em}.dash-brand small{display:block;color:#5e646e;font-size:7px;letter-spacing:.25em;margin-top:3px}.selected-server{display:flex;align-items:center;gap:9px;border:1px solid #20242a;background:#101216;padding:9px;margin-bottom:26px}.selected-server>div:nth-child(2){flex:1;min-width:0}.selected-server small,.selected-server strong{display:block}.selected-server small{font-size:7px;color:#606873;letter-spacing:.16em}.selected-server strong{font-size:10px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nav-title{font-size:8px;letter-spacing:.2em;color:#5f6670;padding:0 10px 8px}.dash-sidebar nav{display:grid;gap:2px}.dash-sidebar nav button,.dash-bottom button{border:0;background:transparent;color:#818892;padding:10px;display:flex;align-items:center;gap:10px;text-align:left;font-size:11px}.dash-sidebar nav button:hover,.dash-sidebar nav .nav-active{background:#171a1f;color:#e8e9ec}.dash-bottom{margin-top:auto;border-top:1px solid #1d2025;padding-top:11px}.dash-bottom .logout{color:#626974}.dash-main{margin-left:242px;width:calc(100% - 242px);min-height:100vh}.dash-header{height:62px;border-bottom:1px solid #1b1e23;padding:0 43px;display:flex;align-items:center;justify-content:space-between;font-size:8px;letter-spacing:.15em;color:#656c76}.dash-header>div{letter-spacing:0;color:#6c747e;display:flex;align-items:center;gap:7px}.online-dot{width:6px;height:6px;border-radius:50%;background:#829985}.dash-content{max-width:1060px;margin:auto;padding:65px 50px 80px}.dash-content.narrow{max-width:900px}.dash-hero{display:flex;justify-content:space-between;align-items:end;gap:35px;padding-bottom:48px;border-bottom:1px solid #1b1e23}.dash-hero h2,.module-title h2{font-size:49px;line-height:1.02;letter-spacing:-.045em;font-weight:500;margin:11px 0 16px}.dash-hero p,.module-title p{font-size:12px;color:#747b85;line-height:1.8;max-width:500px;margin:0}.live-card{border:1px solid #20242a;background:#0d0f12;padding:14px;display:flex;gap:10px;align-items:center;min-width:220px}.live-ring{width:30px;height:30px;border:1px solid #35423a;position:relative}.live-ring:after{content:"";position:absolute;width:7px;height:7px;background:#839b86;border-radius:50%;left:10px;top:10px}.live-card b,.live-card small{display:block}.live-card b{font-size:10px}.live-card small{font-size:8px;color:#5f6670;margin-top:4px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #1b1e23}.metric{padding:23px 20px 24px 0;border-right:1px solid #1b1e23}.metric:not(:first-child){padding-left:25px}.metric:last-child{border-right:0}.metric small,.metric span{display:block;font-size:8px;color:#626a74;letter-spacing:.08em}.metric b{display:block;font-size:25px;font-weight:500;margin:7px 0 4px}.metric span{color:#778478}.control-head{padding:42px 0 19px}.control-head h3{font-size:20px;font-weight:500;margin:8px 0}.module-grid{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #1c1f24;border-top:1px solid #1c1f24}.module-card{position:relative;border:0;border-right:1px solid #1c1f24;border-bottom:1px solid #1c1f24;background:#0b0d10;min-height:155px;padding:25px;text-align:left;display:flex;align-items:flex-start;gap:14px}.module-card:hover{background:#101217}.module-card>span{width:38px;height:38px;border:1px solid #272b31;display:grid;place-items:center;color:#a2a8b0}.module-card>div{flex:1}.module-card b{font-size:13px}.module-card p{font-size:10px;color:#6c737d;line-height:1.6;margin:7px 0}.module-card>svg{color:#515862}.module-title{padding-bottom:42px;border-bottom:1px solid #1b1e23}.protection-bar{padding:18px 0;border-bottom:1px solid #1b1e23;display:flex;justify-content:space-between;align-items:center}.protection-bar span{display:flex;align-items:center;gap:8px;font-size:11px}.protection-bar span svg{color:#839987}.protection-bar small{display:flex;align-items:center;gap:5px;color:#626a73;font-size:8px}.settings-list{border-top:1px solid #1b1e23;margin-top:20px}.setting{min-height:94px;border-bottom:1px solid #1b1e23;display:flex;justify-content:space-between;align-items:center}.setting b{font-size:12px}.setting p{font-size:10px;color:#6d747d;margin:6px 0 0}.toggle{width:39px;height:21px;padding:2px;border:1px solid #32363d;background:#17191d}.toggle i{display:block;width:15px;height:15px;background:#6c727a;transition:.15s}.toggle.on{background:#d9dde1;border-color:#d9dde1}.toggle.on i{background:#0b0c0e;transform:translateX(16px)}.empty-module{min-height:75vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.big-icon{width:57px;height:57px;border:1px solid #282c32;display:grid;place-items:center;color:#9298a1;margin-bottom:27px}.empty-module h2{font-size:45px;margin:10px 0}.empty-module p{font-size:11px;color:#6f767f;max-width:470px;margin:0 0 22px;line-height:1.7}@media(max-width:800px){.dash-sidebar{width:205px}.dash-main{margin-left:205px;width:calc(100% - 205px)}.dash-content{padding:45px 25px}.dash-hero{display:block}.live-card{margin-top:25px;width:max-content}.landing-bottom{left:30px;right:30px}.wordmark{font-size:36px}}
+
+/* =========================================
+   DISCORD SERVER SELECTOR
+========================================= */
+
+.server-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(48, 117, 255, 0.08),
+      transparent 38%
+    ),
+    #050608;
+
+  color: #fff;
+  padding: 32px;
+}
+
+.server-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.logout-button {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.65);
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.logout-button:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+
+.server-selector {
+  width: min(100%, 760px);
+  margin: 80px auto;
+}
+
+.server-selector-heading {
+  margin-bottom: 32px;
+}
+
+.server-selector-heading h1 {
+  margin: 8px 0 10px;
+  font-size: clamp(34px, 5vw, 52px);
+  letter-spacing: -0.04em;
+}
+
+.server-selector-heading p {
+  color: rgba(255,255,255,0.48);
+  line-height: 1.6;
+}
+
+.discord-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 14px 16px;
+  margin-bottom: 14px;
+
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.025);
+  border-radius: 14px;
+}
+
+.discord-user-avatar {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  background: #5865f2;
+  font-weight: 700;
+}
+
+.discord-user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.discord-user strong,
+.discord-user span {
+  display: block;
+}
+
+.discord-user strong {
+  font-size: 14px;
+}
+
+.discord-user span {
+  margin-top: 3px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.38);
+}
+
+.server-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.server-row {
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 12px 14px;
+
+  border: 1px solid rgba(255,255,255,0.065);
+  background: rgba(255,255,255,0.025);
+
+  border-radius: 14px;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.server-row:hover {
+  background: rgba(255,255,255,0.045);
+  border-color: rgba(255,255,255,0.11);
+  transform: translateY(-1px);
+}
+
+.server-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.server-avatar {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #20242c,
+      #101216
+    );
+
+  color: rgba(255,255,255,0.8);
+  font-weight: 700;
+
+  overflow: hidden;
+}
+
+.server-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.server-info {
+  min-width: 0;
+}
+
+.server-info strong,
+.server-info span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.server-info strong {
+  font-size: 14px;
+}
+
+.server-info span {
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.38);
+}
+
+.server-action {
+  min-width: 145px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 0;
+  border-radius: 9px;
+
+  padding: 10px 13px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.server-action.installed {
+  color: #fff;
+  background: rgba(45, 111, 255, 0.12);
+  border: 1px solid rgba(45, 111, 255, 0.22);
+}
+
+.server-action.installed:hover {
+  background: rgba(45, 111, 255, 0.2);
+  border-color: rgba(45, 111, 255, 0.4);
+}
+
+.server-action.add {
+  color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.server-action.add:hover:not(:disabled) {
+  color: #fff;
+  background: rgba(255,255,255,0.07);
+}
+
+.server-action:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.add-symbol {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.server-arrow {
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+.spinner {
+  width: 12px;
+  height: 12px;
+
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: #fff;
+
+  border-radius: 50%;
+
+  animation: server-spin 0.7s linear infinite;
+}
+
+@keyframes server-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.server-footer {
+  margin-top: 18px;
+
+  text-align: center;
+
+  color: rgba(255,255,255,0.28);
+  font-size: 11px;
+}
+
+.empty-servers {
+  padding: 60px 20px;
+  text-align: center;
+
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 14px;
+}
+
+.empty-servers h3 {
+  margin-bottom: 8px;
+}
+
+.empty-servers p {
+  color: rgba(255,255,255,0.35);
+  font-size: 13px;
+}
+
+.discord-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.discord-icon {
+  width: 21px;
+  height: 21px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .server-page {
+    padding: 20px;
+  }
+
+  .server-selector {
+    margin-top: 50px;
+  }
+
+  .server-row {
+    align-items: flex-start;
+  }
+
+  .server-action {
+    min-width: 42px;
+    width: 42px;
+    padding: 10px;
+  }
+
+  .server-action span:not(.server-arrow):not(.add-symbol):not(.spinner) {
+    display: none;
+  }
+}
+
+
+/* ========================================
+   FALLENANGEL — CINEMATIC HOME
+======================================== */
+
+.fa-home {
+  --fa-bg: #08090d;
+  --fa-white: #f1f1f4;
+  --fa-muted: #9698a5;
+
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: var(--fa-white);
+  background: var(--fa-bg);
+  font-family: inherit;
+}
+
+/* Intro GIF: visible first, then becomes atmospheric */
+.fa-intro {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  background: #08090d;
+  pointer-events: none;
+  animation: fa-intro-fade 2.8s ease-out forwards;
+}
+
+.fa-intro-gif {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) brightness(0.75) contrast(1.08);
+  animation: fa-gif-settle 2.8s ease-out forwards;
+}
+
+.fa-intro-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 6, 10, 0.08) 0%,
+      rgba(5, 6, 10, 0.08) 25%,
+      rgba(5, 6, 10, 0.58) 65%,
+      #08090d 100%
+    );
+  animation: fa-shade-in 2.8s ease-out forwards;
+}
+
+.fa-home-atmosphere {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(62, 75, 120, 0.13),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(8, 9, 13, 0.15),
+      rgba(8, 9, 13, 0.72)
+    );
+}
+
+/* Navigation */
+
+.fa-nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px clamp(22px, 6vw, 88px);
+  opacity: 0;
+  animation: fa-content-in 0.8s 1.5s ease forwards;
+}
+
+.fa-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 0.2em;
+}
+
+.fa-brand-icon {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.fa-nav-dashboard {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 17px;
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  border-radius: 3px;
+  background: rgba(10, 11, 17, 0.35);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.fa-nav-dashboard:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+/* Hero */
+
+.fa-hero {
+  position: relative;
+  flex: 1;
+  min-height: 580px;
+  display: grid;
+  place-items: center;
+  padding: 50px 24px 95px;
+  text-align: center;
+}
+
+.fa-wings-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fa-hero-wings {
+  position: absolute;
+  width: min(64vw, 700px);
+  max-height: 65%;
+  object-fit: contain;
+  opacity: 0;
+  transform: translateY(180px) scale(0.88);
+  filter:
+    grayscale(1)
+    brightness(0.62)
+    drop-shadow(0 0 50px rgba(106, 120, 180, 0.12));
+  animation:
+    fa-wings-rise 1.8s 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    fa-wings-breathe 7s 2.2s ease-in-out infinite;
+}
+
+.fa-hero-content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 760px);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: fa-content-in 1s 1s ease forwards;
+}
+
+.fa-kicker {
+  margin: 0 0 25px;
+  color: #b2b7d0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+}
+
+.fa-hero h1 {
+  margin: 0;
+  font-size: clamp(54px, 9vw, 112px);
+  line-height: 0.94;
+  font-weight: 750;
+  letter-spacing: -0.075em;
+}
+
+.fa-hero h1 span {
+  color: #a6acc7;
+}
+
+.fa-hero-description {
+  margin: 26px 0 30px;
+  color: rgba(235, 236, 244, 0.72);
+  font-size: clamp(13px, 1.5vw, 15px);
+  line-height: 1.9;
+}
+
+.fa-hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  min-width: 205px;
+  padding: 15px 19px;
+  border: 1px solid rgba(220, 224, 255, 0.55);
+  border-radius: 3px;
+  background: #e7e9f3;
+  color: #11131b;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.fa-hero-button:hover {
+  transform: translateY(-2px);
+  background: #fff;
+}
+
+.fa-hero-button span {
+  font-size: 18px;
+}
+
+/* Footer */
+
+.fa-home-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px clamp(22px, 6vw, 88px);
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  color: #777b8c;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  opacity: 0;
+  animation: fa-content-in 0.8s 1.7s ease forwards;
+}
+
+.fa-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fa-status > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #91a98d;
+  box-shadow: 0 0 10px rgba(145, 169, 141, 0.4);
+}
+
+/* Entrance animations */
+
+@keyframes fa-intro-fade {
+  0%, 15% { opacity: 1; }
+  100% { opacity: 0.17; }
+}
+
+@keyframes fa-gif-settle {
+  0% {
+    transform: scale(1.04);
+    filter: grayscale(1) brightness(0.95) contrast(1.08);
+  }
+  100% {
+    transform: scale(1);
+    filter: grayscale(1) brightness(0.35) contrast(1.08);
+  }
+}
+
+@keyframes fa-shade-in {
+  0% { opacity: 0.05; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes fa-wings-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(180px) scale(0.88);
+  }
+  100% {
+    opacity: 0.36;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fa-wings-breathe {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.015);
+  }
+}
+
+@keyframes fa-content-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .fa-nav {
+    padding: 20px;
+  }
+
+  .fa-brand {
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.13em;
+  }
+
+  .fa-brand-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .fa-nav-dashboard {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .fa-hero {
+    min-height: 520px;
+    padding: 45px 20px 70px;
+  }
+
+  .fa-hero-wings {
+    width: 100vw;
+    max-height: 55%;
+  }
+
+  .fa-kicker {
+    font-size: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  .fa-home-footer {
+    padding: 18px 20px;
+    font-size: 7px;
+    letter-spacing: 0.07em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fa-intro,
+  .fa-intro-gif,
+  .fa-intro-shade,
+  .fa-hero-wings,
+  .fa-hero-content,
+  .fa-nav,
+  .fa-home-footer {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .fa-intro {
+    opacity: 0.17;
+  }
+
+  .fa-hero-wings {
+    opacity: 0.36;
+    transform: none;
+  }
+
+  .fa-hero-content,
+  .fa-nav,
+  .fa-home-footer {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* FIX: Full-screen FallenAngel intro */
+
+.fa-home {
+  position: relative !important;
+  isolation: isolate !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 100vh !important;
+  min-height: 100svh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #050507 !important;
+}
+
+/* GIF must sit ABOVE the black page background */
+.fa-home .fa-intro {
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: #000 !important;
+  pointer-events: none !important;
+  animation: fa-gif-intro 5s ease forwards !important;
+}
+
+.fa-home .fa-intro-gif {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  filter: grayscale(1) brightness(0.95) contrast(1.08) !important;
+  animation: fa-gif-darken 5s ease forwards !important;
+}
+
+.fa-home .fa-intro-shade {
+  position: absolute !important;
+  inset: 0 !important;
+  background: #000 !important;
+  opacity: 0 !important;
+  animation: fa-black-overlay 5s ease forwards !important;
+}
+
+/* Black atmospheric layer */
+.fa-home .fa-home-atmosphere {
+  position: absolute !important;
+  z-index: 1 !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(17, 20, 32, 0.12),
+      rgba(0, 0, 0, 0.65) 100%
+    ) !important;
+}
+
+/* Keep the page content above both backgrounds */
+.fa-home .fa-nav,
+.fa-home .fa-hero,
+.fa-home .fa-home-footer {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Wings enter from below */
+.fa-home .fa-wings-wrap {
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.fa-home .fa-hero-wings {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: min(72vw, 820px) !important;
+  max-width: none !important;
+  max-height: 72% !important;
+  object-fit: contain !important;
+  opacity: 0 !important;
+  transform: translate(-50%, calc(-50% + 130px)) scale(0.92) !important;
+  animation: fa-wings-enter 1.8s 0.8s cubic-bezier(.16, 1, .3, 1) forwards !important;
+}
+
+/* Text stays above the wings */
+.fa-home .fa-hero-content {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Full-screen GIF -> dark background */
+@keyframes fa-gif-intro {
+  0%, 65% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes fa-gif-darken {
+  0%, 20% {
+    filter: grayscale(1) brightness(0.95) contrast(1.08);
+    transform: scale(1.02);
+  }
+  100% {
+    filter: grayscale(1) brightness(0.18) contrast(1.08);
+    transform: scale(1);
+  }
+}
+
+@keyframes fa-black-overlay {
+  0% { opacity: 0.05; }
+  100% { opacity: 0.68; }
+}
+
+@keyframes fa-wings-enter {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 130px)) scale(0.92);
+  }
+  100% {
+    opacity: 0.42;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .fa-home .fa-hero-wings {
+    width: 110vw !important;
+    max-height: 58% !important;
+  }
+}
+
+/* ==========================================
+   FALLENANGEL — BRIGHTER INTRO + VISIBLE WINGS
+========================================== */
+
+/* GIF: prominent at first, then remains visible */
+.fa-home .fa-intro {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 5 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  background: #000 !important;
+  opacity: 1 !important;
+  animation: fa-raven-entrance 5s ease-in-out forwards !important;
+}
+
+.fa-home .fa-intro-gif {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  filter: grayscale(1) brightness(0.85) contrast(1.05) !important;
+  transform: scale(1.05);
+  animation: fa-raven-image-entrance 5s ease-in-out forwards !important;
+}
+
+.fa-home .fa-intro-shade {
+  position: absolute !important;
+  inset: 0 !important;
+  background: #000 !important;
+  opacity: 0.08 !important;
+  animation: fa-raven-shade-entrance 5s ease-in-out forwards !important;
+}
+
+@keyframes fa-raven-entrance {
+  0%, 12% { opacity: 1; }
+  65% { opacity: 0.9; }
+  100% { opacity: 0.78; }
+}
+
+@keyframes fa-raven-image-entrance {
+  0%, 12% {
+    transform: scale(1.05);
+    filter: grayscale(1) brightness(0.5) contrast(1.05);
+  }
+  100% {
+    transform: scale(1);
+    filter: grayscale(1) brightness(0.4) contrast(1.05);
+  }
+}
+
+@keyframes fa-raven-shade-entrance {
+  0%, 12% { opacity: 0.08; }
+  100% { opacity: 0.22; }
+}
+
+/* Keep interface above the GIF */
+.fa-home .fa-home-atmosphere {
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+.fa-home .fa-nav,
+.fa-home .fa-hero,
+.fa-home .fa-home-footer {
+  position: relative !important;
+  z-index: 6 !important;
+}
+
+/* WINGS: force them visible and animate them rising */
+.fa-home .fa-wings-wrap {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  overflow: visible !important;
+  pointer-events: none !important;
+}
+
+.fa-home .fa-hero-wings {
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: min(70vw, 760px) !important;
+  height: auto !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  opacity: 0;
+  transform: translate(-50%, -35%) scale(0.92);
+  animation: fa-wings-entrance 1.8s 0.3s cubic-bezier(.16, 1, .3, 1) forwards !important;
+}
+
+@keyframes fa-wings-entrance {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-35% + 100px)) scale(0.92);
+  }
+  to {
+    opacity: 0.65;
+    transform: translate(-50%, -35%) scale(1);
+  }
+}
+
+/* Keep the text above the decorative wings */
+.fa-home .fa-hero-content {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Blue 3D buttons */
+.fa-home .fa-nav-dashboard,
+.fa-home .fa-hero-button {
+  position: relative;
+  border: 1px solid #8992ff !important;
+  border-radius: 5px !important;
+  background: linear-gradient(
+    180deg, #7888ff 0%, #5865f2 55%, #4651cf 100%
+  ) !important;
+  color: #fff !important;
+  box-shadow:
+    0 4px 0 #303ba8,
+    0 7px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  transition: transform 180ms ease, box-shadow 180ms ease,
+    filter 180ms ease !important;
+}
+
+.fa-home .fa-nav-dashboard:hover,
+.fa-home .fa-hero-button:hover {
+  transform: translateY(-3px) !important;
+  filter: brightness(1.12) !important;
+  box-shadow:
+    0 7px 0 #303ba8,
+    0 13px 25px rgba(88, 101, 242, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+.fa-home .fa-nav-dashboard:active,
+.fa-home .fa-hero-button:active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 1px 0 #303ba8, 0 3px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* BLACK NAVIGATION BAR */
+.fa-home .fa-nav {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20 !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 72px;
+  padding: 0 6%;
+
+  background: #050505 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+}
+
+/* BRAND */
+.fa-home .fa-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.fa-home .fa-brand-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* DASHBOARD BUTTON */
+.fa-home .fa-nav-dashboard {
+  padding: 11px 19px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* KEEP HERO CONTENT BELOW NAVBAR */
+.fa-home .fa-hero {
+  padding-top: 72px;
+}
+
+/* SMALL SCREENS */
+@media (max-width: 600px) {
+  .fa-home .fa-nav {
+    height: 64px;
+    padding: 0 5%;
+  }
+
+  .fa-home .fa-brand {
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+
+  .fa-home .fa-brand-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* =====================================
+   SCROLL-AWARE NAVIGATION
+===================================== */
+
+.fa-home {
+  overflow: visible !important;
+  min-height: 150vh;
+  background: #050505;
+}
+
+.fa-home .fa-nav {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100 !important;
+
+  height: 72px;
+  padding: 0 6%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  opacity: 1 !important;
+  animation: none !important;
+
+  transition:
+    transform 280ms ease,
+    background 280ms ease,
+    backdrop-filter 280ms ease,
+    border-color 280ms ease;
+}
+
+/* Hidden while scrolling down */
+.fa-home .fa-nav-hidden {
+  transform: translateY(-110%);
+  pointer-events: none;
+}
+
+/* Visible when scrolling up */
+.fa-home .fa-nav-visible {
+  transform: translateY(0);
+}
+
+/* Fully black at the top */
+.fa-home .fa-nav-top {
+  background: #000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Black glass effect after scrolling */
+.fa-home .fa-nav-scrolled {
+  background: rgba(0, 0, 0, 0.76);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Prevent hero content from sitting underneath the navbar */
+.fa-home .fa-hero {
+  padding-top: 100px;
+}
+
+/* Responsive navbar */
+@media (max-width: 600px) {
+  .fa-home .fa-nav {
+    height: 64px;
+    padding: 0 5%;
+  }
+}
+
+.dash-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dash-bottom {
+  margin-top: auto;
+  padding-top: 20px;
+}
