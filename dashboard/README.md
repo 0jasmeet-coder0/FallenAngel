@@ -1,4 +1,4 @@
-# FallenAngel Dashboard v1
+# FallenAngel Dashboard 
 
 Landing page -> Dashboard button -> Discord verification -> server selection -> dashboard.
 
