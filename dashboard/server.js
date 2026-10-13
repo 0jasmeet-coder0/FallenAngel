@@ -1,3 +1,4 @@
+
 import http from "node:http";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -9,8 +10,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PORT = Number(process.env.PORT || 3001);
+
 const FRONTEND_URL =
-  process.env.FRONTEND_URL || "http://localhost:5173";
+  process.env.FRONTEND_URL || "https://fallen-angel-ruby.vercel.app";
 
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
@@ -18,11 +20,11 @@ const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
 const DISCORD_REDIRECT_URI =
   process.env.DISCORD_REDIRECT_URI ||
-  "http://localhost:3001/auth/callback";
+  `${FRONTEND_URL}/auth/callback`;
 
 const DISCORD_INSTALL_REDIRECT_URI =
   process.env.DISCORD_INSTALL_REDIRECT_URI ||
-  "http://localhost:3001/auth/install/callback";
+  `${FRONTEND_URL}/auth/install/callback`;
 
 const installStates = new Map();
 
@@ -719,10 +721,9 @@ const server = http.createServer(
   }
 );
 
-server.listen(PORT, () => {
-  console.log(
-    `FallenAngel backend running on http://localhost:${PORT}`
-  );
+
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`FallenAngel backend running on port ${PORT}`);
 });
 
 if (process.env.NODE_ENV !== "production") {
