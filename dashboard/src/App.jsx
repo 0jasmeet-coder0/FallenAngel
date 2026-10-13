@@ -18,7 +18,39 @@ export default function App() {
   const [installingId, setInstallingId] = useState(null);
 
   useEffect(() => {
-   setLoading(false);
+    const params = new URLSearchParams(window.location.search);
+    const shouldRestoreSession = params.get("authenticated") === "1" || params.get("view") === "servers";
+
+    if (!shouldRestoreSession) {
+      setLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    fetch("/api/session", { credentials: "include", cache: "no-store" })
+      .then((response) => response.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (data.authenticated) {
+          setSession(data);
+          setScreen("servers");
+        } else {
+          setScreen("landing");
+        }
+      })
+      .catch((error) => {
+        console.error("Could not restore Discord session:", error);
+        if (!cancelled) setScreen("landing");
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+          // Remove callback flags so refreshing does not repeat session restoration.
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      });
+
+    return () => { cancelled = true; };
   }, []);
 
   async function installBot(server) {

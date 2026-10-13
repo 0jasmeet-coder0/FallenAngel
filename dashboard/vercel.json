@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/auth/:path*", "destination": "/api/index?route=/auth/:path*" },
+    { "source": "/api/:path*", "destination": "/api/index?route=/api/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
