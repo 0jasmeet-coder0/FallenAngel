@@ -48,7 +48,7 @@ class TitanBot extends Client {
     this.rest = new REST({ version: '10' }).setToken(config.bot.token);
   }
 
-   async start() {
+    async start() {
     try {
       startupLog('Starting TitanBot...');
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -57,7 +57,6 @@ class TitanBot extends Client {
       const dbInstance = await initializeDatabase();
       this.db = dbInstance.db;
 
-      // Check database status and report
       const dbStatus = this.db.getStatus();
       if (dbStatus.isDegraded) {
         logger.warn('');
@@ -90,39 +89,6 @@ class TitanBot extends Client {
       await this.login(this.config.bot.token);
       startupLog('Discord login successful');
       
-      // ════════════ PRIVATE BUBBLE COMMANDS FOR PROFILE CARD ════════════
-      try {
-        startupLog('Pushing specific layout commands to bot profile...');
-        
-        // Define exactly what text elements show up on your card
-        const profileDisplayCommands = [
-          {
-            name: 'help',
-            description: 'Get a clean overview of Fallen Angel modules and features.'
-          },
-          {
-            name: 'setup',
-            description: 'Configure active moderation grids and infrastructure properties.'
-          },
-          {
-            name: 'ticket',
-            description: 'Initialize a high-availability support lifecycle thread.'
-          }
-        ];
-
-        // Access the REST manager instance built into your framework
-        const { Routes } = await import('discord.js');
-        await this.rest.put(
-          Routes.applicationCommands(this.config.bot.clientId),
-          { body: profileDisplayCommands }
-        );
-        
-        startupLog('✅ Bot profile card commands updated successfully!');
-      } catch (profileError) {
-        logger.error('⚠️ Failed to register custom profile card layout:', profileError);
-      }
-      // ═════════════════════════════════════════════════════════════════
-
       startupLog('Registering slash commands globally...');
       await this.registerCommands();
       startupLog('Slash commands registration complete');
@@ -141,7 +107,7 @@ class TitanBot extends Client {
       process.exit(1);
     }
   }
-
+  
   startWebServer() {
     const app = express();
     const configuredPort = Number(this.config.api?.port || process.env.PORT || 3000);
