@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import "./intro-animation-fix.css";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
+import SmoothScroll from "./components/SmoothScroll";
 import {
   ArrowRight, Check, ChevronLeft, ChevronRight, ShieldCheck,
   Users, Ticket, BarChart3, Settings, Activity, LogOut, Plus
@@ -18,39 +22,7 @@ export default function App() {
   const [installingId, setInstallingId] = useState(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const shouldRestoreSession = params.get("authenticated") === "1" || params.get("view") === "servers";
-
-    if (!shouldRestoreSession) {
-      setLoading(false);
-      return;
-    }
-
-    let cancelled = false;
-    fetch("/api/session", { credentials: "include", cache: "no-store" })
-      .then((response) => response.json())
-      .then((data) => {
-        if (cancelled) return;
-        if (data.authenticated) {
-          setSession(data);
-          setScreen("servers");
-        } else {
-          setScreen("landing");
-        }
-      })
-      .catch((error) => {
-        console.error("Could not restore Discord session:", error);
-        if (!cancelled) setScreen("landing");
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setLoading(false);
-          // Remove callback flags so refreshing does not repeat session restoration.
-          window.history.replaceState({}, document.title, window.location.pathname);
-        }
-      });
-
-    return () => { cancelled = true; };
+   setLoading(false);
   }, []);
 
   async function installBot(server) {
@@ -137,7 +109,10 @@ export default function App() {
   }
 
   if (screen === "landing") {
-    return (
+  return (
+    <>
+      <SmoothScroll />
+
       <Landing
       onAddToDiscord={() => {
         window.location.href = "/auth/install?return_to=home";
@@ -162,9 +137,10 @@ export default function App() {
            window.location.href = "/auth/discord";
           }
        }}
-     />
-    );
-  }
+      />
+    </>
+  );
+}
 
   if (screen === "verify") {
     return (
@@ -206,110 +182,320 @@ export default function App() {
 
 
 function Landing({ onDashboard, onAddToDiscord }) {
-  const [introKey, setIntroKey] = React.useState(0);
+  const sectionRef = useRef(null);
+  const [progress, setProgress] = useState(0);
   const [navVisible, setNavVisible] = useState(true);
   const [navAtTop, setNavAtTop] = useState(true);
 
   useEffect(() => {
     let previousY = window.scrollY;
+    let frame = null;
+
+    const updateScroll = () => {
+      frame = null;
+
+      if (!sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+
+      // The cinematic animation takes about 2.4 viewport heights.
+      const distance = Math.max(window.innerHeight * 3.4, 1);
+
+      const nextProgress = Math.max(
+        0,
+        Math.min(-rect.top / distance, 1)
+      );
+
+      setProgress(nextProgress);
+
+    };
 
     const handleScroll = () => {
-    const currentY = window.scrollY;
+      const currentY = window.scrollY;
 
-    setNavAtTop(currentY < 10);
+      setNavAtTop(currentY < 10);
 
-    if (currentY < 10) {
-      setNavVisible(true);
-    } else if (currentY < previousY) {
-      setNavVisible(true);
-    } else if (currentY > previousY) {
-      setNavVisible(false);
-    }
+      if (currentY < 10 || currentY < previousY) {
+        setNavVisible(true);
+      } else if (currentY > previousY) {
+        setNavVisible(false);
+      }
 
-    previousY = currentY;
-  };
+      previousY = currentY;
 
-  window.addEventListener("scroll", handleScroll, {
-    passive: true,
-  });
+      if (frame === null) {
+        frame = requestAnimationFrame(updateScroll);
+      }
+    };
 
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-  };
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    window.addEventListener("resize", handleScroll);
+
+    updateScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+
+      if (frame !== null) {
+        cancelAnimationFrame(frame);
+      }
+    };
   }, []);
 
-  React.useEffect(() => {
-    setIntroKey((key) => key + 1);
-  }, []);
+  // Progressively reveal the birds without scaling the image.
+ const birdOpacity = 0.24 + progress * 0.50;
+ const birdBrightness = 0.52 + progress * 0.24;
+
+  // Fill the headline from bottom to top.
+  const textFill = 100 - progress * 100;
+
+  const clampProgress = (value) =>
+  Math.min(1, Math.max(0, value));
+
+  const taglineProgress = clampProgress(
+  (progress - 0.48) / 0.14
+  );
+
+  const buttonProgress = clampProgress(
+  (progress - 0.61) / 0.18
+  );
 
   return (
-    <main className="fa-home" key={introKey}>
-      {/* Full-screen animated raven introduction */}
-      <div className="fa-intro" aria-hidden="true">
-        <img
-          className="fa-intro-gif"
-          src="/assets/raven-flight.gif"
-          alt=""
-        />
-        <div className="fa-intro-shade" />
-      </div>
-
-      {/* Permanent atmospheric background */}
-      <div className="fa-home-atmosphere" aria-hidden="true" />
-
-      {/* Navigation */}
-      <header
-        className={[
-         "fa-nav",
-          navVisible ? "fa-nav-visible" : "fa-nav-hidden",
-          navAtTop ? "fa-nav-top" : "fa-nav-scrolled",
-        ].join(" ")}
-        >
-       <a className="fa-brand" href="/" aria-label="FallenAngel home">
-         <img
-           src="/assets/fallenangel-wings.png"
-           alt=""
-          className="fa-brand-icon"
-          />
-         <span>FALLENANGEL</span>
-       </a>
-
-        <button className="fa-nav-dashboard" onClick={onDashboard}>
-          Dashboard <span aria-hidden="true">↗</span>
-        </button>
-      </header>
-
-      {/* Main cinematic entrance */}
-      <section className="fa-hero">
-        <div className="fa-wings-wrap" aria-hidden="true">
+    <main
+      className="fa-home fa-cinematic-page"
+        style={{
+          "--bird-opacity": birdOpacity,
+          "--bird-brightness": birdBrightness,
+        }}
+    > 
+      {/* Tall scrolling section with a sticky cinematic viewport */}
+      <section
+        ref={sectionRef}
+        className="fa-cinematic-scroll"
+      >
+        <div className="fa-cinematic-stage">
+          {/* Animated bird background */}
           <img
-            className="fa-hero-wings"
-            src="/assets/fallenangel-wings.png"
+            className="fa-cinematic-birds"
+            src="/assets/raven-flight.gif"
             alt=""
+            aria-hidden="true"
+            loading="eager"
+            fetchPriority="high"
           />
+
+          <div
+            className="fa-cinematic-overlay"
+            style={{
+              opacity: 0.68 - progress * 0.16,
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Navigation */}
+          <header
+            className={[
+              "fa-nav",
+              navVisible ? "fa-nav-visible" : "fa-nav-hidden",
+              navAtTop ? "fa-nav-top" : "fa-nav-scrolled",
+            ].join(" ")}
+          >
+            <a
+              className="fa-brand"
+              href="/"
+              aria-label="FallenAngel home"
+            >
+              <img
+                src="/assets/fallenangel-wings.png"
+                alt=""
+                className="fa-brand-icon"
+              />
+              <span>FALLENANGEL</span>
+            </a>
+
+            <button
+              className="fa-nav-dashboard"
+              onClick={onDashboard}
+            >
+              Dashboard <span aria-hidden="true">↗</span>
+            </button>
+          </header>
+
+          {/* Cinematic headline */}
+          <div className="fa-cinematic-content">
+
+            <p className="fa-cinematic-kicker">
+              YOUR COMMUNITY. YOUR RULES.
+            </p>
+
+            <div className="fa-cinematic-title">
+              <h1 className="fa-cinematic-title-outline">
+                Control the
+                <br />
+                <span>chaos.</span>
+              </h1>
+
+              <h1
+                className="fa-cinematic-title-fill"
+                aria-hidden="true"
+                style={{
+                  clipPath: `inset(${textFill}% 0 0 0)`,
+                }}
+              >
+                Control the
+                <br />
+                <span>chaos.</span>
+              </h1>
+            </div>
+
+            {/* Reveal supporting text later in the sequence */}
+            <div
+              className="fa-cinematic-tagline"
+              aria-hidden={taglineProgress < 0.98}
+              style={{
+                opacity: taglineProgress,
+                transform: `translate3d(0, ${(1 - taglineProgress) * 26}px, 0)`,
+              }}
+            >
+              <p>
+                One place to shape your server.
+                <br />
+                Built for the communities that matter.
+              </p>
+            </div>
+
+            {/* The button rises into view as the headline fills */}
+            <div
+              className="fa-cinematic-cta"
+              aria-hidden={buttonProgress < 0.98}
+              style={{
+                opacity: buttonProgress,
+                transform: `translate3d(0, ${(1 - buttonProgress) * 64}px, 0)`,
+                pointerEvents: buttonProgress > 0.98 ? "auto" : "none",
+              }}
+            >
+              <button
+                className="fa-hero-button"
+                onClick={onAddToDiscord}
+                tabIndex={buttonProgress > 0.98 ? 0 : -1}
+              >
+                Add to Discord
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>  
+          </div>
+
+          {/* Scroll cue */}
+          <a
+            className="fa-cinematic-scroll-cue"
+            href="#fa-about"
+            aria-label="Scroll to learn about FallenAngel"
+          >
+            <span>SCROLL TO EXPLORE</span>
+            <span className="fa-cinematic-arrow" aria-hidden="true">
+              ↓
+            </span>
+          </a>
+
+          <div className="fa-cinematic-counter" aria-hidden="true">
+            <span>01</span>
+            <span className="fa-counter-line">
+              <span
+                style={{
+                  transform: `scaleX(${progress})`,
+                }}
+              />
+            </span>
+            <span>03</span>
+          </div>
         </div>
+      </section>
 
-        <div className="fa-hero-content">
-          <p className="fa-kicker">
-            YOUR COMMUNITY. YOUR RULES.
+      {/* Page content after the cinematic lock releases */}
+      <section className="fa-cinematic-info" id="fa-about">
+        <div className="fa-cinematic-info-inner">
+          <div className="fa-cinematic-info-heading">
+            <p className="fa-cinematic-label">
+              MORE CONTROL. LESS CHAOS.
+            </p>
+
+            <h2>
+              Make room for
+              <br />
+              <span>your community.</span>
+            </h2>
+
+            <p className="fa-cinematic-info-description">
+              The tools your Discord server needs, brought together
+              in one place. Spend less time handling the noise and
+              more time building a community people want to be part of.
+            </p>
+          </div>
+
+          <div className="fa-cinematic-features">
+            <article className="fa-cinematic-feature">
+              <span>01 / PROTECTION</span>
+              <div className="fa-feature-symbol" aria-hidden="true">
+                ◇
+              </div>
+              <h3>Keep order.</h3>
+              <p>
+                Moderation tools to help your team handle disruptive
+                behavior and protect your community.
+              </p>
+            </article>
+
+            <article className="fa-cinematic-feature">
+              <span>02 / COMMUNITY</span>
+              <div className="fa-feature-symbol" aria-hidden="true">
+                ↗
+              </div>
+              <h3>Build connection.</h3>
+              <p>
+                Welcome messages, leveling, birthdays, and engagement
+                features to help your community feel alive.
+              </p>
+            </article>
+
+            <article className="fa-cinematic-feature">
+              <span>03 / MANAGEMENT</span>
+              <div className="fa-feature-symbol" aria-hidden="true">
+                ⌘
+              </div>
+              <h3>Stay in control.</h3>
+              <p>
+                Tickets, giveaways, server tools, and configuration
+                in one practical toolkit.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* Final call to action */}
+      <section className="fa-cinematic-ending">
+        <div className="fa-cinematic-ending-inner">
+          <p className="fa-cinematic-label">
+            YOUR SERVER. YOUR RULES.
           </p>
 
-          <h1>
-            Control the
+          <h2>
+            Ready to take
             <br />
-            <span>chaos.</span>
-          </h1>
+            <span>control?</span>
+          </h2>
 
-          <p className="fa-hero-description">
-            One place to shape your server.
-            <br />
-            Built for the communities that matter.
-          </p>
-
-         <button className="fa-hero-button" onClick={onAddToDiscord}>
-          Add to Discord
-          <span aria-hidden="true">→</span>
-        </button>
+          <button
+            className="fa-hero-button"
+            onClick={onAddToDiscord}
+          >
+            Add FallenAngel
+            <span aria-hidden="true">→</span>
+          </button>
         </div>
       </section>
 

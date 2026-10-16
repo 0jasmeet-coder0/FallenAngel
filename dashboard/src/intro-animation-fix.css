@@ -1,0 +1,741 @@
+
+/* ==========================================
+   FALLENANGEL — CINEMATIC STICKY HERO
+   Scroll-driven. No zoom on the bird GIF.
+   ========================================== */
+
+.fa-cinematic-page {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+  color: #f2f2f5;
+  background: #050508;
+}
+
+/* A tall section creates the scroll distance. */
+.fa-cinematic-scroll {
+  position: relative;
+  height: 420vh;
+  background: #050508;
+}
+
+/* This viewport stays locked while its parent scrolls. */
+.fa-cinematic-stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050508;
+  isolation: isolate;
+}
+
+/* Birds remain the original size: no scale or zoom. */
+.fa-cinematic-birds {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+
+  opacity: var(--bird-opacity, 0.055);
+  filter:
+    grayscale(1)
+    contrast(1.08)
+    brightness(var(--bird-brightness, 0.35));
+
+  transform: none !important;
+  scale: 1 !important;
+  animation: none !important;
+  transition: none !important;
+  will-change: opacity, filter;
+}
+
+/* Changes darkness, not the size of the GIF. */
+.fa-cinematic-overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4, 4, 7, 0.65) 0%,
+      rgba(4, 4, 7, 0.25) 48%,
+      rgba(4, 4, 7, 0.64) 100%
+    );
+  transition: opacity 100ms linear;
+}
+
+/* Reuse your existing navigation styles. */
+.fa-cinematic-stage .fa-nav {
+  z-index: 10;
+}
+
+/* Center content inside the locked viewport. */
+.fa-cinematic-content {
+  position: relative;
+  z-index: 5;
+  width: min(96%, 1500px);
+  padding: 30px 24px;
+  text-align: center;
+}
+
+/* Top eyebrow line. */
+.fa-cinematic-kicker {
+  margin: 0 0 clamp(28px, 5vh, 58px);
+  color: rgba(235, 236, 248, 0.78);
+  font-size: clamp(9px, 1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  line-height: 1.8;
+}
+
+/* The outline and fill use exactly the same text layout. */
+.fa-cinematic-title {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  margin-inline: auto;
+  font-size: clamp(3rem, 11.8vw, 11rem);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.075em;
+  text-transform: none;
+}
+
+.fa-cinematic-title h1 {
+  grid-area: 1 / 1;
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: center;
+}
+
+.fa-cinematic-title-outline {
+  position: relative;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.5px rgba(245, 245, 250, 0.88);
+}
+
+.fa-cinematic-title-fill {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: #f2f2f5;
+  -webkit-text-fill-color: #f2f2f5;
+  pointer-events: none;
+  overflow: hidden;
+  transition: clip-path 80ms linear;
+}
+
+/* Supporting text appears later in the scroll. */
+.fa-cinematic-tagline {
+  margin-top: clamp(28px, 5vh, 48px);
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fa-cinematic-tagline.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fa-cinematic-tagline p {
+  margin: 0;
+  color: rgba(240, 240, 246, 0.78);
+  font-size: clamp(14px, 1.7vw, 21px);
+  line-height: 1.8;
+}
+
+/* Button comes upward from below; it does not zoom. */
+.fa-cinematic-cta {
+  margin-top: clamp(25px, 4vh, 40px);
+  opacity: 0;
+  transform: translateY(48px);
+  transition:
+    opacity 800ms ease,
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fa-cinematic-cta.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Keep the existing button design but remove scale effects. */
+.fa-cinematic-page .fa-hero-button {
+  transform: none;
+  transition:
+    background-color 350ms ease,
+    color 350ms ease,
+    border-color 350ms ease,
+    box-shadow 350ms ease;
+}
+
+.fa-cinematic-page .fa-hero-button:hover {
+  transform: translateY(-3px);
+}
+
+.fa-cinematic-page .fa-hero-button:active {
+  transform: translateY(0);
+}
+
+/* Scroll cue. */
+.fa-cinematic-scroll-cue {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: rgba(245, 245, 250, 0.65);
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.23em;
+  transform: translateX(-50%);
+}
+
+.fa-cinematic-arrow {
+  font-size: 22px;
+  font-weight: 400;
+  animation: fa-cinematic-arrow-move 1.8s ease-in-out infinite;
+}
+
+@keyframes fa-cinematic-arrow-move {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+/* Small progress indicator in the bottom-right corner. */
+.fa-cinematic-counter {
+  position: absolute;
+  z-index: 8;
+  right: clamp(22px, 4vw, 60px);
+  bottom: 39px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(245, 245, 250, 0.62);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.fa-counter-line {
+  position: relative;
+  width: clamp(45px, 7vw, 88px);
+  height: 1px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.fa-counter-line > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #e9e9f0;
+  transform-origin: left center;
+}
+
+/* ==========================================
+   INFORMATION SECTION AFTER THE LOCK
+   ========================================== */
+
+.fa-cinematic-info {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: clamp(100px, 14vw, 190px) clamp(22px, 8vw, 140px);
+  background: #08080b;
+}
+
+.fa-cinematic-info-inner {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.fa-cinematic-label {
+  margin: 0 0 24px;
+  color: #a7aac7;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.23em;
+  line-height: 1.8;
+}
+
+.fa-cinematic-info-heading {
+  max-width: 820px;
+  margin-bottom: 75px;
+}
+
+.fa-cinematic-info-heading h2,
+.fa-cinematic-ending-inner h2 {
+  margin: 0;
+  color: #f0f0f5;
+  font-size: clamp(2.8rem, 6.6vw, 6.5rem);
+  font-weight: 850;
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+}
+
+.fa-cinematic-info-heading h2 span,
+.fa-cinematic-ending-inner h2 span {
+  color: #a7aac7;
+}
+
+.fa-cinematic-info-description {
+  max-width: 590px;
+  margin: 30px 0 0;
+  color: rgba(237, 237, 245, 0.68);
+  font-size: clamp(15px, 1.5vw, 19px);
+  line-height: 1.9;
+}
+
+.fa-cinematic-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.fa-cinematic-feature {
+  min-height: 295px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  background: #101014;
+  transition:
+    border-color 250ms ease,
+    background-color 250ms ease;
+}
+
+.fa-cinematic-feature:hover {
+  border-color: rgba(167, 170, 199, 0.48);
+  background: #15151c;
+}
+
+.fa-cinematic-feature > span {
+  color: rgba(237, 237, 245, 0.53);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.fa-feature-symbol {
+  margin: 43px 0 24px;
+  color: #a7aac7;
+  font-size: 28px;
+}
+
+.fa-cinematic-feature h3 {
+  margin: 0 0 14px;
+  color: #f1f1f5;
+  font-size: clamp(19px, 2vw, 25px);
+  letter-spacing: -0.04em;
+}
+
+.fa-cinematic-feature p {
+  margin: 0;
+  color: rgba(237, 237, 245, 0.63);
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+/* ==========================================
+   FINAL CALL TO ACTION
+   ========================================== */
+
+.fa-cinematic-ending {
+  position: relative;
+  z-index: 2;
+  min-height: 76vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px;
+  text-align: center;
+  background: #050507;
+}
+
+.fa-cinematic-ending-inner {
+  width: 100%;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.fa-cinematic-ending-inner .fa-hero-button {
+  margin-top: 36px;
+}
+
+/* Footer follows all page sections. */
+.fa-cinematic-page .fa-home-footer {
+  position: relative;
+  z-index: 2;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px clamp(22px, 5vw, 80px);
+  background: #030305;
+}
+
+/* Responsive layout. */
+@media (max-width: 800px) {
+  .fa-cinematic-features {
+    grid-template-columns: 1fr;
+  }
+
+  .fa-cinematic-feature {
+    min-height: 235px;
+  }
+
+  .fa-cinematic-info-heading {
+    margin-bottom: 45px;
+  }
+
+  .fa-cinematic-page .fa-home-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fa-cinematic-counter {
+    right: 20px;
+    bottom: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fa-cinematic-content {
+    padding-inline: 12px;
+  }
+
+  .fa-cinematic-title {
+    font-size: clamp(2.7rem, 12vw, 4.5rem);
+  }
+
+  .fa-cinematic-kicker {
+    letter-spacing: 0.20em;
+  }
+
+  .fa-cinematic-info {
+    padding-inline: 22px;
+  }
+
+  .fa-cinematic-feature {
+    padding: 24px;
+  }
+
+  .fa-cinematic-scroll-cue {
+    left: 24px;
+    bottom: 25px;
+    align-items: flex-start;
+    transform: none;
+  }
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  .fa-cinematic-page .fa-cinematic-arrow {
+    animation: none;
+  }
+
+  .fa-cinematic-tagline,
+  .fa-cinematic-cta {
+    transition-duration: 0.01ms;
+  }
+}
+
+
+/* Restore FallenAngel's original look on the cinematic page. */
+
+.fa-home.fa-cinematic-page {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  background: #050507;
+}
+
+/* Restore the blue 3D buttons. */
+.fa-home.fa-cinematic-page .fa-nav-dashboard,
+.fa-home.fa-cinematic-page .fa-hero-button {
+  border: 1px solid #8992ff !important;
+  border-radius: 5px !important;
+  background: linear-gradient(
+    180deg,
+    #7888ff 0%,
+    #5865f2 55%,
+    #4651cf 100%
+  ) !important;
+  color: #fff !important;
+  box-shadow:
+    0 4px 0 #303ba8,
+    0 7px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Bouncy 3D hover and pressed states. */
+.fa-home.fa-cinematic-page .fa-nav-dashboard:hover,
+.fa-home.fa-cinematic-page .fa-hero-button:hover {
+  transform: translateY(-3px) !important;
+  filter: brightness(1.12) !important;
+  box-shadow:
+    0 7px 0 #303ba8,
+    0 13px 25px rgba(88, 101, 242, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+.fa-home.fa-cinematic-page .fa-nav-dashboard:active,
+.fa-home.fa-cinematic-page .fa-hero-button:active {
+  transform: translateY(3px) !important;
+  box-shadow:
+    0 1px 0 #303ba8,
+    0 3px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Restore the lavender accent on "chaos." */
+.fa-home.fa-cinematic-page .fa-cinematic-title-outline span {
+  -webkit-text-stroke-color: #a7aac7;
+}
+
+.fa-home.fa-cinematic-page .fa-cinematic-title-fill span {
+  color: #a7aac7;
+  -webkit-text-fill-color: #a7aac7;
+}
+
+/* Keep the GIF fixed, visible, and free of zoom. */
+.fa-home.fa-cinematic-page .fa-cinematic-birds {
+  opacity: var(--bird-opacity, 0.055) !important;
+  filter:
+    grayscale(1)
+    contrast(1.08)
+    brightness(var(--bird-brightness, 0.35)) !important;
+  transform: none !important;
+  scale: 1 !important;
+  animation: none !important;
+  transition: opacity 100ms linear, filter 100ms linear !important;
+}
+
+/* Keep the sticky cinematic section above the page background. */
+.fa-home.fa-cinematic-page .fa-cinematic-scroll {
+  position: relative;
+}
+
+.fa-home.fa-cinematic-page .fa-cinematic-stage {
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+}
+
+
+/* Longer sticky cinematic sequence */
+.fa-home.fa-cinematic-page .fa-cinematic-scroll {
+  height: 520vh;
+}
+
+/* Refined headline proportions and spacing */
+.fa-home.fa-cinematic-page .fa-cinematic-title {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  font-family: inherit;
+  font-size: clamp(3.2rem, 9.2vw, 8.7rem);
+  font-weight: 850;
+  line-height: 0.96;
+  letter-spacing: -0.065em;
+  text-wrap: balance;
+}
+
+.fa-home.fa-cinematic-page .fa-cinematic-title h1 {
+  width: 100%;
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: center;
+}
+
+.fa-home.fa-cinematic-page .fa-cinematic-title-outline {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.25px rgba(242, 242, 248, 0.82);
+}
+
+.fa-home.fa-cinematic-page .fa-cinematic-title-outline span {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-color: #a7aac7;
+}
+
+.fa-home.fa-cinematic-page .fa-cinematic-title-fill {
+  color: #f2f2f5;
+  -webkit-text-fill-color: #f2f2f5;
+  transition: clip-path 45ms linear;
+}
+
+.fa-home.fa-cinematic-page .fa-cinematic-title-fill span {
+  color: #a7aac7;
+  -webkit-text-fill-color: #a7aac7;
+}
+
+/* Keep the bird image steady; only opacity and brightness change. */
+.fa-home.fa-cinematic-page .fa-cinematic-birds {
+  opacity: var(--bird-opacity, 0.24) !important;
+  filter:
+    grayscale(1)
+    contrast(1.06)
+    brightness(var(--bird-brightness, 0.52)) !important;
+  transform: none !important;
+  scale: 1 !important;
+  animation: none !important;
+  transition: opacity 100ms linear, filter 100ms linear !important;
+}
+
+/* Preserve the original blue raised-button styling. */
+.fa-home.fa-cinematic-page .fa-nav-dashboard,
+.fa-home.fa-cinematic-page .fa-hero-button {
+  border: 1px solid #8992ff !important;
+  border-radius: 5px !important;
+  background: linear-gradient(
+    180deg,
+    #7888ff 0%,
+    #5865f2 55%,
+    #4651cf 100%
+  ) !important;
+  color: #fff !important;
+  box-shadow:
+    0 4px 0 #303ba8,
+    0 7px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+.fa-home.fa-cinematic-page .fa-nav-dashboard:hover,
+.fa-home.fa-cinematic-page .fa-hero-button:hover {
+  transform: translateY(-3px) !important;
+  filter: brightness(1.12) !important;
+  box-shadow:
+    0 7px 0 #303ba8,
+    0 13px 25px rgba(88, 101, 242, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+.fa-home.fa-cinematic-page .fa-nav-dashboard:active,
+.fa-home.fa-cinematic-page .fa-hero-button:active {
+  transform: translateY(3px) !important;
+  box-shadow:
+    0 1px 0 #303ba8,
+    0 3px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Responsive headline sizing */
+@media (max-width: 600px) {
+  .fa-home.fa-cinematic-page .fa-cinematic-title {
+    font-size: clamp(2.8rem, 11.5vw, 4.5rem);
+    letter-spacing: -0.06em;
+  }
+}
+
+/* Lenis smooth scrolling — MORVEX-style setup */
+html {
+  scroll-behavior: auto !important;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+
+/* Scroll-controlled reveals: let Lenis drive the movement. */
+.fa-home.fa-cinematic-page .fa-cinematic-tagline,
+.fa-home.fa-cinematic-page .fa-cinematic-cta {
+  transition: none !important;
+  will-change: opacity, transform;
+}
+
+/* Preserve the no-zoom bird background. */
+.fa-home.fa-cinematic-page .fa-cinematic-birds {
+  transform: none !important;
+  scale: 1 !important;
+  animation: none !important;
+}
+
+/* =========================================
+   CINEMATIC BACKGROUND — PERFORMANCE FIX
+   Keep the GIF moving; remove extra effects.
+========================================= */
+
+.fa-home.fa-cinematic-page .fa-cinematic-birds {
+  animation: none !important;
+  transform: none !important;
+  scale: 1 !important;
+
+  /* Keep the image treatment static */
+  filter: grayscale(1) brightness(0.55) contrast(1.04) !important;
+
+  /* Preserve the scroll-driven fade */
+  opacity: var(--bird-opacity, 0.28) !important;
+
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+
+/* Remove competing animations from the background layers */
+.fa-home.fa-cinematic-page .fa-cinematic-overlay {
+  animation: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* Also disable the older intro effects if they're present */
+.fa-home .fa-intro-gif {
+  animation: none !important;
+  transform: none !important;
+  filter: grayscale(1) brightness(0.8) contrast(1.04) !important;
+}
+
+.fa-home .fa-intro-shade {
+  animation: none !important;
+  filter: none !important;
+}
